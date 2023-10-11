@@ -79,7 +79,7 @@ const cadastrarTransacao = async (req, res) => {
         return res.status(200).json(novaTransacao);
 
     } catch (error) {
-        console.error("Erro: ", error);
+        
         return res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
 
@@ -111,7 +111,7 @@ const atualizarTransacao = async (req, res) => {
 
     } catch (error) {
 
-        console.log(error);
+        
         return res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
 
