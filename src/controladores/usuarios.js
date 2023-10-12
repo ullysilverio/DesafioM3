@@ -79,11 +79,7 @@ const atualizarUsuario = async ( req, res ) =>{
     const { id } = req.usuario
     try {
     
-        const consultaEmail = await pool.query ('select * from usuarios where email = $1',[email])
-            
-        if(consultaEmail.rowCount === 1){
-            return res.status(409).json({mensagem: "O e-mail informado já está sendo utilizado por outro usuário."})
-        }
+        
         const senhaCriptografada = await bcrypt.hash(senha,10)
 
         const usuarioAtualizado = 'update usuarios set nome = $1, email = $2, senha = $3 where id = $4'
