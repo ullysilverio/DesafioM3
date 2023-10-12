@@ -77,20 +77,32 @@ const detalharUsuario = async (req, res) => {
 const atualizarUsuario = async ( req, res ) =>{
     const {nome, email, senha} = req.body
     const { id } = req.usuario
-    try {
     
-        
-        const senhaCriptografada = await bcrypt.hash(senha,10)
-
-        const usuarioAtualizado = 'update usuarios set nome = $1, email = $2, senha = $3 where id = $4'
-
-        await pool.query(usuarioAtualizado, [nome, email, senhaCriptografada, id])
-
-        res.status(204).send()
-    } catch (error) {
-        return res.status(500).json({ mensagem: "Erro interno no servidor" })
+    
+        try {
+            // Consulta o usuário logado pelo ID
+      
+            const consultaEmail = await pool.query(`
+            select * from usuarios where email = $1`, [email]);
+      
+              if (consultaEmail.rowCount == 1){
+                  const consultaUsuarioLogado = await pool.query(
+                  'SELECT email FROM usuarios WHERE id = $1', [id]);
+                  const emailUsuarioLogado = consultaUsuarioLogado.rows[0].email;
+                  if(email !== emailUsuarioLogado){
+                      return res.status(403).json({
+                          mensagem: 'O e-mail informado já está sendo utilizado por outro usuário.',
+                        });
+                      }
+                  }
+                  const senhaCriptografada = await bcrypt.hash(senha, 10);
+                  const usuarioAtualizado = 'UPDATE usuarios SET nome = $1, email = $2, senha = $3 WHERE id = $4'; await pool.query(usuarioAtualizado, [nome, email, senhaCriptografada, id]);
+                  return res.status(200).send()
+          }catch (error) {
+            return res.status(500).json({ mensagem: 'Erro interno no servidor' });
+          }
     }
-}
+
 
 
 const listarCategorias = async (req, res) => {
