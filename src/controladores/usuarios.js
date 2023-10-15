@@ -76,10 +76,10 @@ const detalharUsuario = async (req, res) => {
 
     const atualizarUsuario = async (req, res) => {
         const { nome, email, senha } = req.body;
-        const { id } = req.usuario; // ID do usuário logado
+        const { id } = req.usuario; 
       
         try {
-          // Consulta o usuário logado pelo ID
+          
     
           const consultaEmail = await pool.query(`
           select * from usuarios where email = $1`, [email]);
