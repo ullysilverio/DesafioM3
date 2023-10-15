@@ -50,9 +50,7 @@ const listarIdTransacao = async (req, res) => {
 
 }
 
-//tratar o que fazer com as negativas dos dados de entrada e saída
-//onde colocar o id usuario
-// dados e ordens de resposta nos exemplos estao errados
+
 
 const cadastrarTransacao = async (req, res) => {
 
@@ -192,4 +190,3 @@ const extrato = async (req, res) => {
 module.exports = {
     listarTransacoes, listarIdTransacao, cadastrarTransacao, atualizarTransacao, excluirTransacao, extrato
 }
-
